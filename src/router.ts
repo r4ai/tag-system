@@ -22,7 +22,11 @@ const levelRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([indexRoute, levelRoute]);
 
-export const router = createRouter({ routeTree });
+export const router = createRouter({
+  routeTree,
+  // Keep route matching under GitHub Pages subpath (e.g. "/<repo>/").
+  basepath: import.meta.env.BASE_URL,
+});
 
 declare module '@tanstack/react-router' {
   interface Register {
