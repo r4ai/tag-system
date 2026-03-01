@@ -36,9 +36,10 @@ export function Sidebar({ currentLevelId, isOpen, onSelectLevel, onClose, onOpen
             <HelpCircle className="w-5 h-5" />
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto p-3 space-y-4">
-          {sections.map(section => (
+        <div className="flex-1 overflow-y-auto p-3 space-y-6">
+          {sections.map((section, sectionIndex) => (
             <div key={section} className="space-y-1">
+              {sectionIndex > 0 && <div className="border-t border-zinc-800/60 -mx-3 mb-4" />}
               <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-wider px-3 mb-2">{section}</h3>
               {LEVELS.filter(l => l.section === section).map(level => (
                 <button

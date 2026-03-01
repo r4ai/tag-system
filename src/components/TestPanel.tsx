@@ -27,7 +27,7 @@ export function TestPanel({
 
   return (
     <div className="w-full lg:w-1/2 flex flex-col bg-zinc-950 lg:h-full">
-      <div className="px-3 py-2 lg:px-4 lg:py-2.5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50 shrink-0">
+      <div className="px-3 py-3 lg:px-4 lg:py-3.5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50 shrink-0">
         <h3 className="font-semibold text-zinc-200 flex items-center gap-2">
           <Play className="w-4 h-4 text-zinc-400" /> テストケース
         </h3>
@@ -99,11 +99,13 @@ export function TestPanel({
       </div>
 
       {/* Execution Trace Visualizer */}
-      <div className="flex-1 min-h-0 flex flex-col p-3 lg:p-4 bg-[#0a0a0a]">
-        <h4 className="shrink-0 text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3 lg:mb-4 flex items-center gap-2">
-          実行トレース
-        </h4>
-        <div className="flex-1 min-h-0 overflow-y-auto">
+      <div className="flex-1 min-h-0 flex flex-col bg-[#0a0a0a]">
+        <div className="px-3 py-3 lg:px-4 lg:py-3.5 border-b border-zinc-800 shrink-0">
+          <h4 className="text-xs font-bold text-zinc-500 uppercase tracking-wider flex items-center gap-2">
+            実行トレース
+          </h4>
+        </div>
+        <div className="flex-1 min-h-0 overflow-y-auto p-3 lg:p-4">
           {activeResult ? (
             <div className="font-mono text-xs lg:text-sm flex flex-col gap-1.5">
               {activeResult.history?.map((step, i) => (

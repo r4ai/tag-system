@@ -23,7 +23,7 @@ export function RulesEditor({
 }: Props) {
   return (
     <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-zinc-800 flex flex-col bg-zinc-950 lg:h-full min-h-0">
-      <div className="px-3 py-2 lg:px-4 lg:py-2.5 border-b border-zinc-800 flex items-center bg-zinc-900/50 shrink-0">
+      <div className="px-3 py-3 lg:px-4 lg:py-3.5 border-b border-zinc-800 flex items-center bg-zinc-900/50 shrink-0">
         <h3 className="font-semibold text-zinc-200 flex items-center gap-2">
           <FileText className="w-4 h-4 text-zinc-400" /> 問題文
         </h3>
@@ -45,7 +45,7 @@ export function RulesEditor({
         <div className="w-12 h-1 bg-zinc-800 rounded-full group-hover:bg-indigo-500 transition-colors" />
       </div>
 
-      <div className="px-3 py-2 lg:px-4 lg:py-2.5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50 shrink-0">
+      <div className="px-3 py-3 lg:px-4 lg:py-3.5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50 shrink-0">
         <h3 className="font-semibold text-zinc-200 flex items-center gap-2">
           <BookOpen className="w-4 h-4 text-zinc-400" /> ルール
         </h3>
