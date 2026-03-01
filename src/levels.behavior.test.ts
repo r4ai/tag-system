@@ -6,7 +6,7 @@ type Rules = Record<string, string>;
 
 const EXPECTED_SOLUTIONS: Record<number, Rules> = {
   1: { A: 'XYZ' },
-  2: { A: 'B', B: 'CCC' },
+  2: { A: 'CH', C: '' },
   3: { A: 'X', B: '' },
   4: { a: 'x', b: 'y', c: 'z', A: '', B: '', C: '' },
   5: { '1': '0321', '2': '', '3': '' },
