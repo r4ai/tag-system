@@ -17,10 +17,14 @@ export default function App() {
     activeTestCase,
     setActiveTestCase,
     allPassed,
+    stepIndex,
     addRule,
     updateRule,
     deleteRule,
     runAll,
+    startStepping,
+    stepForward,
+    resetActiveTestCase,
   } = useGameState();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -83,6 +87,10 @@ export default function App() {
             onSelectTestCase={setActiveTestCase}
             allPassed={allPassed}
             onRunAll={runAll}
+            onStartStepping={startStepping}
+            onStepForward={stepForward}
+            onResetActiveTestCase={resetActiveTestCase}
+            stepIndex={stepIndex}
             panelHeight={testCasesHeight}
             onDragStart={handleDragStart}
           />
