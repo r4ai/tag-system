@@ -26,6 +26,7 @@ export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isExplanationOpen, setIsExplanationOpen] = useState(false);
   const { height: testCasesHeight, handleDragStart } = useResizablePanel(250);
+  const { height: problemHeight, handleDragStart: handleProblemDragStart } = useResizablePanel(200);
 
   const handleSelectLevel = (id: number) => {
     setCurrentLevelId(id);
@@ -33,7 +34,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-300 flex font-sans selection:bg-indigo-500/30 lg:overflow-hidden">
+    <div className="min-h-dvh bg-zinc-950 text-zinc-300 flex font-sans selection:bg-indigo-500/30 lg:h-dvh lg:overflow-hidden">
       <Sidebar
         currentLevelId={currentLevelId}
         isOpen={isSidebarOpen}
@@ -42,34 +43,38 @@ export default function App() {
         onOpenExplanation={() => setIsExplanationOpen(true)}
       />
 
-      <div className="flex-1 flex flex-col min-h-screen lg:h-screen lg:overflow-hidden w-full">
+      <div className="flex-1 flex flex-col min-h-0 lg:h-dvh lg:overflow-hidden w-full">
         {/* Header */}
-        <div className="p-4 lg:p-6 border-b border-zinc-800 bg-zinc-900/30 shrink-0">
-          <div className="flex items-center gap-4 mb-3 lg:hidden">
+        <div className="px-3 py-2.5 lg:px-4 lg:py-3 border-b border-zinc-800 bg-zinc-900/30 shrink-0">
+          <div className="flex items-center gap-3 mb-2 lg:hidden">
             <button onClick={() => setIsSidebarOpen(true)} className="text-zinc-400 hover:text-zinc-100">
               <Menu className="w-6 h-6" />
             </button>
-            <h2 className="text-xl font-bold text-zinc-100 truncate">{currentLevel.title}</h2>
-          </div>
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-4 lg:gap-8">
-            <div className="max-w-2xl">
-              <h2 className="text-2xl font-bold text-zinc-100 mb-2 hidden lg:block">{currentLevel.title}</h2>
-              <p className="text-zinc-400 text-sm leading-relaxed whitespace-pre-wrap">{currentLevel.description}</p>
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              <h2 className="text-xl font-bold text-zinc-100 truncate">{currentLevel.title}</h2>
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/40 bg-indigo-500/10 px-2 py-0.5 shrink-0">
+                <span className="text-base font-mono font-semibold text-indigo-300">m = {currentLevel.m}</span>
+              </div>
             </div>
-            <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-3 lg:p-4 flex flex-col items-center min-w-25 lg:min-w-30 shadow-sm self-start">
-              <span className="text-xs text-zinc-500 font-medium uppercase tracking-wider mb-1">パラメータ</span>
-              <span className="text-3xl lg:text-4xl font-mono text-indigo-400">m={currentLevel.m}</span>
+          </div>
+          <div className="hidden lg:flex items-center gap-3 lg:gap-4">
+            <h2 className="text-2xl font-bold text-zinc-100 truncate">{currentLevel.title}</h2>
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/40 bg-indigo-500/10 px-2.5 py-0.5 shrink-0">
+              <span className="text-base font-mono font-semibold text-indigo-300">m = {currentLevel.m}</span>
             </div>
           </div>
         </div>
 
         {/* Workspace */}
-        <div className="flex-1 flex flex-col lg:flex-row lg:overflow-hidden">
+        <div className="flex-1 min-h-0 flex flex-col lg:flex-row lg:overflow-hidden">
           <RulesEditor
+            problemDescription={currentLevel.description}
             rules={currentRules}
             onAddRule={addRule}
             onUpdateRule={updateRule}
             onDeleteRule={deleteRule}
+            problemHeight={problemHeight}
+            onProblemDragStart={handleProblemDragStart}
           />
           <TestPanel
             testCases={currentLevel.testCases}
