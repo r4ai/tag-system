@@ -1,6 +1,7 @@
 import React from 'react';
 import { Plus, Trash2, BookOpen, Info, FileText } from 'lucide-react';
 import { Rule } from '../types';
+import { ProblemDescription } from './ProblemDescription';
 
 type Props = {
   problemDescription: string;
@@ -23,7 +24,7 @@ export function RulesEditor({
 }: Props) {
   return (
     <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-zinc-800 flex flex-col bg-zinc-950 lg:h-full min-h-0">
-      <div className="px-3 py-2 lg:px-4 lg:py-2.5 border-b border-zinc-800 flex items-center bg-zinc-900/50 shrink-0">
+      <div className="px-3 py-3 lg:px-4 lg:py-3.5 border-b border-zinc-800 flex items-center bg-zinc-900/50 shrink-0">
         <h3 className="font-semibold text-zinc-200 flex items-center gap-2">
           <FileText className="w-4 h-4 text-zinc-400" /> 問題文
         </h3>
@@ -32,9 +33,7 @@ export function RulesEditor({
         className="border-b border-zinc-800 overflow-y-auto shrink-0 bg-zinc-950"
         style={{ height: `${problemHeight}px` }}
       >
-        <p className="text-zinc-100 text-sm leading-relaxed whitespace-pre-wrap p-3 lg:p-4">
-          {problemDescription}
-        </p>
+        <ProblemDescription description={problemDescription} />
       </div>
 
       <div
@@ -45,7 +44,7 @@ export function RulesEditor({
         <div className="w-12 h-1 bg-zinc-800 rounded-full group-hover:bg-indigo-500 transition-colors" />
       </div>
 
-      <div className="px-3 py-2 lg:px-4 lg:py-2.5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50 shrink-0">
+      <div className="px-3 py-3 lg:px-4 lg:py-3.5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50 shrink-0">
         <h3 className="font-semibold text-zinc-200 flex items-center gap-2">
           <BookOpen className="w-4 h-4 text-zinc-400" /> ルール
         </h3>

@@ -1,27 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu } from 'lucide-react';
+import { useParams, useNavigate } from '@tanstack/react-router';
 import { useGameState } from './hooks/useGameState';
 import { useResizablePanel } from './hooks/useResizablePanel';
 import { Sidebar } from './components/Sidebar';
 import { RulesEditor } from './components/RulesEditor';
 import { TestPanel } from './components/TestPanel';
 import { ExplanationModal } from './components/ExplanationModal';
+import { LEVELS } from './constants';
 
 export default function App() {
+  const { levelId: levelIdParam } = useParams({ from: '/levels/$levelId' });
+  const parsedLevelId = /^\d+$/.test(levelIdParam) ? Number.parseInt(levelIdParam, 10) : Number.NaN;
+  const validLevel = LEVELS.find(l => l.id === parsedLevelId);
+  const effectiveLevelId = validLevel?.id ?? LEVELS[0]?.id ?? 1;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (validLevel) return;
+    navigate({
+      to: '/levels/$levelId',
+      params: { levelId: String(effectiveLevelId) },
+      replace: true,
+    });
+  }, [effectiveLevelId, navigate, validLevel]);
+
   const {
-    currentLevelId,
-    setCurrentLevelId,
     currentLevel,
     currentRules,
     results,
     activeTestCase,
     setActiveTestCase,
     allPassed,
+    stepIndex,
     addRule,
     updateRule,
     deleteRule,
     runAll,
-  } = useGameState();
+    startStepping,
+    stepForward,
+    resetActiveTestCase,
+  } = useGameState(effectiveLevelId);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isExplanationOpen, setIsExplanationOpen] = useState(false);
@@ -29,14 +48,14 @@ export default function App() {
   const { height: problemHeight, handleDragStart: handleProblemDragStart } = useResizablePanel(200);
 
   const handleSelectLevel = (id: number) => {
-    setCurrentLevelId(id);
+    navigate({ to: '/levels/$levelId', params: { levelId: String(id) } });
     setIsSidebarOpen(false);
   };
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-300 flex font-sans selection:bg-indigo-500/30 lg:h-dvh lg:overflow-hidden">
       <Sidebar
-        currentLevelId={currentLevelId}
+        currentLevelId={effectiveLevelId}
         isOpen={isSidebarOpen}
         onSelectLevel={handleSelectLevel}
         onClose={() => setIsSidebarOpen(false)}
@@ -83,6 +102,10 @@ export default function App() {
             onSelectTestCase={setActiveTestCase}
             allPassed={allPassed}
             onRunAll={runAll}
+            onStartStepping={startStepping}
+            onStepForward={stepForward}
+            onResetActiveTestCase={resetActiveTestCase}
+            stepIndex={stepIndex}
             panelHeight={testCasesHeight}
             onDragStart={handleDragStart}
           />
