@@ -4,6 +4,29 @@ import { Rule, TestCaseResult } from '../types';
 import { simulateTagSystem } from '../utils/tagSystem';
 
 const EMPTY_RULES: Rule[] = [];
+const STORAGE_KEY = 'tagSystemRules:v2';
+const LEGACY_STORAGE_KEY = 'tagSystemRules';
+const LEGACY_LEVEL_ID_MIGRATION: Record<number, number> = {
+  13: 17,
+  14: 18,
+  15: 19,
+  16: 20,
+};
+
+function migrateLegacyRulesByLevel(saved: Record<string, Rule[]>) {
+  const migrated: Record<number, Rule[]> = {};
+
+  for (const [rawLevelId, rules] of Object.entries(saved)) {
+    const levelId = Number.parseInt(rawLevelId, 10);
+    if (!Number.isFinite(levelId)) continue;
+    const nextLevelId = LEGACY_LEVEL_ID_MIGRATION[levelId] ?? levelId;
+    if (!(nextLevelId in migrated)) {
+      migrated[nextLevelId] = rules;
+    }
+  }
+
+  return migrated;
+}
 
 export function useGameState(levelId: number) {
   const [rulesByLevel, setRulesByLevel] = useState<Record<number, Rule[]>>({});
@@ -12,19 +35,32 @@ export function useGameState(levelId: number) {
   const [stepIndex, setStepIndex] = useState<number>(-1); // -1 = show all, 0+ = step mode
 
   useEffect(() => {
-    const savedRules = localStorage.getItem('tagSystemRules');
+    const savedRules = localStorage.getItem(STORAGE_KEY);
     if (savedRules) {
       try {
         setRulesByLevel(JSON.parse(savedRules));
       } catch (e) {
         console.error('Failed to parse saved rules', e);
       }
+      return;
+    }
+
+    const legacySavedRules = localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (legacySavedRules) {
+      try {
+        const parsedLegacy = JSON.parse(legacySavedRules) as Record<string, Rule[]>;
+        const migrated = migrateLegacyRulesByLevel(parsedLegacy);
+        setRulesByLevel(migrated);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+      } catch (e) {
+        console.error('Failed to parse legacy saved rules', e);
+      }
     }
   }, []);
 
   useEffect(() => {
     if (Object.keys(rulesByLevel).length > 0) {
-      localStorage.setItem('tagSystemRules', JSON.stringify(rulesByLevel));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(rulesByLevel));
     }
   }, [rulesByLevel]);
 
