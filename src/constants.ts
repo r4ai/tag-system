@@ -273,6 +273,61 @@ export const LEVELS: Level[] = [
   },
   {
     id: 13,
+    section: "発展チャレンジ",
+    title: "逆側ストッパー",
+    description: dedent`
+      入力は \`a\` に続く 2 進数文字列です。
+
+      - \`0\` は \`L\` に変換
+      - \`1\` は \`R\` に変換
+      - 停止マーカー \`H\` を文字列の**末尾**に 1 つ置く
+
+      例えば \`a10\` は \`RLH\` になります。
+
+      **制約：** 入力は \`a\` に続く \`0\` と \`1\` のみで構成されます。
+    `,
+    m: 1,
+    testCases: [
+      { input: "a0", target: "LH" },
+      { input: "a1", target: "RH" },
+      { input: "a10", target: "RLH" },
+      { input: "a0011", target: "LLRRH" },
+      { input: "a1010", target: "RLRLH" },
+      { input: "a111000", target: "RRRLLLH" }
+    ]
+  },
+  {
+    id: 14,
+    section: "発展チャレンジ",
+    title: "偶奇トリガー",
+    description: dedent`
+      入力は \`0x\` または \`1x\` のブロックが 0 回以上続き、最後に \`zx\` が付きます。
+
+      \`1x\` の個数を数えてください。
+
+      - 偶数個なら \`E\`
+      - 奇数個なら \`O\`
+
+      を出力してください。
+
+      **例：** \`1x0x1xzx\` には \`1x\` が 2 個あるので、出力は \`E\` です。
+
+      **制約：** 入力は、 \`0x\` または \`1x\` の0回以上の繰り返しに \`zx\` が続く形です。
+    `,
+    m: 2,
+    testCases: [
+      { input: "zx", target: "E" },
+      { input: "1xzx", target: "O" },
+      { input: "0xzx", target: "E" },
+      { input: "1x0x1xzx", target: "E" },
+      { input: "1x1x0xzx", target: "E" },
+      { input: "0x1x0xzx", target: "O" },
+      { input: "1x1x1x0x1xzx", target: "E" },
+      { input: "1x1x1xzx", target: "O" }
+    ]
+  },
+  {
+    id: 15,
     section: "計算理論",
     title: "コラッツ予想",
     description: dedent`
@@ -308,7 +363,7 @@ export const LEVELS: Level[] = [
     ]
   },
   {
-    id: 14,
+    id: 16,
     section: "計算理論",
     title: "2進数インクリメント",
     description: dedent`
@@ -331,7 +386,7 @@ export const LEVELS: Level[] = [
     ]
   },
   {
-    id: 15,
+    id: 17,
     section: "計算理論",
     title: "パリティチェック",
     description: dedent`
@@ -356,7 +411,7 @@ export const LEVELS: Level[] = [
     ]
   },
   {
-    id: 16,
+    id: 18,
     section: "計算理論",
     title: "括弧の対応",
     description: dedent`
