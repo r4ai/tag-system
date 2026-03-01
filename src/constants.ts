@@ -129,7 +129,7 @@ export const LEVELS: Level[] = [
     section: "文字列操作",
     title: "ビット反転",
     description: dedent`
-      \`0\` と \`1\` で書かれた文字列の各ビットを反転させてください（$0 \\to 1$、$1 \\to 0$）。
+      \`0\` と \`1\` で書かれた文字列の各ビットを反転させてください（$0 \to 1$、$1 \to 0$）。
 
       入力の先頭の \`a\` は処理開始マーカーです。
 
@@ -280,14 +280,14 @@ export const LEVELS: Level[] = [
       出力も \`a\` の個数で整数を表します。
 
       $$
-      f(N) = \\begin{cases} N / 2 & \\text{if } N \\text{ is even} \\\\ 3N + 1 & \\text{if } N \\text{ is odd} \\end{cases}
+      f(N) = \begin{cases} N / 2 & \text{if } N \text{ is even} \\ 3N + 1 & \text{if } N \text{ is odd} \end{cases}
       $$
 
       $f(N)$ を出力してください。
 
       > **ヒント：** 先頭から 2 文字ずつ処理されます。偶数個の場合はきれいに割り切れますが、奇数個の場合は最後に \`a\` が 1 文字余ります。この差を偶奇の判定に利用しましょう。
 
-      **制約：** 入力は \`a\` のみで構成され、$N \\geq 2$ です。
+      **制約：** 入力は \`a\` のみで構成され、$N \geq 2$ です。
     `,
     m: 2,
     testCases: [
