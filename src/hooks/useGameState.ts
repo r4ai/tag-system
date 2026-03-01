@@ -86,17 +86,19 @@ export function useGameState(levelId: number) {
     const tc = currentLevel.testCases[testCaseIndex];
     const rulesMap = buildRulesMap();
     const sim = simulateTagSystem(tc.input, rulesMap, currentLevel.m);
+    const hasHistory = sim.history.length > 0;
+    const status = hasHistory ? 'idle' : sim.finalStr === tc.target ? 'pass' : 'fail';
     setResults(prev => ({
       ...prev,
       [testCaseIndex]: {
-        status: 'idle',
+        status,
         history: sim.history,
         finalStr: sim.finalStr,
         reason: sim.reason,
       },
     }));
     setActiveTestCase(testCaseIndex);
-    setStepIndex(0);
+    setStepIndex(hasHistory ? 0 : -1);
   };
 
   const stepForward = () => {

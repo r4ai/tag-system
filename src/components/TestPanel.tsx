@@ -32,7 +32,7 @@ export function TestPanel({
   onDragStart,
 }: Props) {
   const activeResult = results[activeTestCase];
-  const isStepMode = stepIndex >= 0;
+  const isStepMode = stepIndex >= 0 && activeResult?.status === 'idle';
   const history = activeResult?.history ?? [];
   const totalSteps = history.length;
   const isStepDone = isStepMode && stepIndex >= totalSteps;

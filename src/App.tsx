@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu } from 'lucide-react';
 import { useParams, useNavigate } from '@tanstack/react-router';
 import { useGameState } from './hooks/useGameState';
@@ -11,10 +11,19 @@ import { LEVELS } from './constants';
 
 export default function App() {
   const { levelId: levelIdParam } = useParams({ from: '/levels/$levelId' });
-  const levelId = Math.max(1, parseInt(levelIdParam, 10) || 1);
-  const validLevel = LEVELS.find(l => l.id === levelId);
-  const effectiveLevelId = validLevel ? levelId : 1;
+  const parsedLevelId = /^\d+$/.test(levelIdParam) ? Number.parseInt(levelIdParam, 10) : Number.NaN;
+  const validLevel = LEVELS.find(l => l.id === parsedLevelId);
+  const effectiveLevelId = validLevel?.id ?? LEVELS[0]?.id ?? 1;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (validLevel) return;
+    navigate({
+      to: '/levels/$levelId',
+      params: { levelId: String(effectiveLevelId) },
+      replace: true,
+    });
+  }, [effectiveLevelId, navigate, validLevel]);
 
   const {
     currentLevel,
