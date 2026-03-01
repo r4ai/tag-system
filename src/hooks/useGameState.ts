@@ -3,6 +3,8 @@ import { LEVELS } from '../constants';
 import { Rule, TestCaseResult } from '../types';
 import { simulateTagSystem } from '../utils/tagSystem';
 
+const EMPTY_RULES: Rule[] = [];
+
 export function useGameState() {
   const [currentLevelId, setCurrentLevelId] = useState(1);
   const [rulesByLevel, setRulesByLevel] = useState<Record<number, Rule[]>>({});
@@ -27,12 +29,12 @@ export function useGameState() {
   }, [rulesByLevel]);
 
   const currentLevel = LEVELS.find(l => l.id === currentLevelId)!;
-  const currentRules = rulesByLevel[currentLevelId] ?? [];
+  const currentRules = rulesByLevel[currentLevelId] ?? EMPTY_RULES;
 
   useEffect(() => {
     setResults({});
     setActiveTestCase(0);
-  }, [currentRules, currentLevelId]);
+  }, [rulesByLevel[currentLevelId], currentLevelId]);
 
   const updateRules = (newRules: Rule[]) => {
     setRulesByLevel(prev => ({ ...prev, [currentLevelId]: newRules }));

@@ -19,12 +19,14 @@ export function useResizablePanel(initialHeight = 250) {
       document.removeEventListener('mouseup', handleUp);
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleUp);
+      document.removeEventListener('touchcancel', handleUp);
     };
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleUp);
     document.addEventListener('touchmove', handleTouchMove, { passive: false });
     document.addEventListener('touchend', handleUp);
+    document.addEventListener('touchcancel', handleUp);
   };
 
   return { height, handleDragStart };

@@ -31,6 +31,7 @@ export function Sidebar({ currentLevelId, isOpen, onSelectLevel, onClose, onOpen
             onClick={onOpenExplanation}
             className="text-zinc-400 hover:text-indigo-400 transition-colors"
             title="タグシステムとは？"
+            aria-label="タグシステムとは？"
           >
             <HelpCircle className="w-5 h-5" />
           </button>
