@@ -1,6 +1,7 @@
 import React from 'react';
 import { Plus, Trash2, BookOpen, Info, FileText } from 'lucide-react';
 import { Rule } from '../types';
+import { ProblemDescription } from './ProblemDescription';
 
 type Props = {
   problemDescription: string;
@@ -32,9 +33,7 @@ export function RulesEditor({
         className="border-b border-zinc-800 overflow-y-auto shrink-0 bg-zinc-950"
         style={{ height: `${problemHeight}px` }}
       >
-        <p className="text-zinc-100 text-sm leading-relaxed whitespace-pre-wrap p-3 lg:p-4">
-          {problemDescription}
-        </p>
+        <ProblemDescription description={problemDescription} />
       </div>
 
       <div
