@@ -27,19 +27,19 @@ export function TestPanel({
 
   return (
     <div className="w-full lg:w-1/2 flex flex-col bg-zinc-950 lg:h-full">
-      <div className="p-3 lg:p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50 shrink-0">
+      <div className="px-3 py-2 lg:px-4 lg:py-2.5 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50 shrink-0">
         <h3 className="font-semibold text-zinc-200 flex items-center gap-2">
           <Play className="w-4 h-4 text-zinc-400" /> テストケース
         </h3>
         <div className="flex items-center gap-3">
           {allPassed && (
-            <span className="text-emerald-400 text-sm font-bold flex items-center gap-1 bg-emerald-400/10 px-2 py-1 rounded animate-pulse">
+            <span className="text-emerald-400 text-sm font-bold flex items-center gap-1 bg-emerald-400/10 px-2 py-0.5 rounded animate-pulse">
               <CheckCircle2 className="w-4 h-4" /> クリア
             </span>
           )}
           <button
             onClick={onRunAll}
-            className="flex items-center gap-2 text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-1.5 rounded-md transition-colors shadow-lg shadow-indigo-900/20"
+            className="flex items-center gap-2 text-sm font-medium bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-md transition-colors shadow-lg shadow-indigo-900/20"
           >
             <Play className="w-4 h-4 fill-current" /> 実行
           </button>
@@ -92,6 +92,9 @@ export function TestPanel({
       {/* Resizer */}
       <div
         className="h-3 bg-zinc-950 border-b border-zinc-800 cursor-row-resize flex items-center justify-center group shrink-0 touch-none"
+        role="separator"
+        aria-orientation="horizontal"
+        aria-label="テストケースと実行トレースの高さ調整"
         onMouseDown={(e) => { e.preventDefault(); onDragStart(e.clientY); }}
         onTouchStart={(e) => { onDragStart(e.touches[0].clientY); }}
       >
