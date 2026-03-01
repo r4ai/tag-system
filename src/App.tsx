@@ -12,6 +12,33 @@ export default function App() {
   const [activeTestCase, setActiveTestCase] = useState<number>(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isExplanationOpen, setIsExplanationOpen] = useState(false);
+  const [testCasesHeight, setTestCasesHeight] = useState(250);
+
+  const handleDragStart = (startY: number) => {
+    const startHeight = testCasesHeight;
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const deltaY = moveEvent.clientY - startY;
+      setTestCasesHeight(Math.max(100, startHeight + deltaY));
+    };
+
+    const handleTouchMove = (moveEvent: TouchEvent) => {
+      const deltaY = moveEvent.touches[0].clientY - startY;
+      setTestCasesHeight(Math.max(100, startHeight + deltaY));
+    };
+
+    const handleMouseUp = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleMouseUp);
+  };
   
   // Load from localStorage on mount
   useEffect(() => {
@@ -93,7 +120,7 @@ export default function App() {
       )}
 
       {/* Sidebar */}
-      <div className={`fixed lg:static inset-y-0 left-0 z-50 w-64 border-r border-zinc-800 flex flex-col bg-zinc-950/95 backdrop-blur-md transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+      <div className={`fixed lg:sticky top-0 inset-y-0 left-0 z-50 w-64 h-screen border-r border-zinc-800 flex flex-col bg-zinc-950/95 backdrop-blur-md transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="p-4 border-b border-zinc-800 flex justify-between items-center">
           <h1 className="text-xl font-bold text-zinc-100 flex items-center gap-2">
             <Terminal className="w-5 h-5 text-indigo-400" />
@@ -103,23 +130,28 @@ export default function App() {
             <HelpCircle className="w-5 h-5" />
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto p-3 space-y-2">
-          {LEVELS.map(level => (
-            <button
-              key={level.id}
-              onClick={() => {
-                setCurrentLevelId(level.id);
-                setIsSidebarOpen(false);
-              }}
-              className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-all flex items-center justify-between group ${
-                currentLevelId === level.id 
-                  ? 'bg-indigo-500/10 text-indigo-300 font-medium border border-indigo-500/20' 
-                  : 'hover:bg-zinc-900 text-zinc-400 border border-transparent'
-              }`}
-            >
-              <span>{level.id}. {level.title}</span>
-              <ChevronRight className={`w-4 h-4 transition-transform ${currentLevelId === level.id ? 'translate-x-1 text-indigo-400' : 'opacity-0 group-hover:opacity-100'}`} />
-            </button>
+        <div className="flex-1 overflow-y-auto p-3 space-y-4">
+          {Array.from(new Set(LEVELS.map(l => l.section))).map(section => (
+            <div key={section} className="space-y-1">
+              <h3 className="text-xs font-bold text-zinc-500 uppercase tracking-wider px-3 mb-2">{section}</h3>
+              {LEVELS.filter(l => l.section === section).map(level => (
+                <button
+                  key={level.id}
+                  onClick={() => {
+                    setCurrentLevelId(level.id);
+                    setIsSidebarOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all flex items-center justify-between group ${
+                    currentLevelId === level.id 
+                      ? 'bg-indigo-500/10 text-indigo-300 font-medium border border-indigo-500/20' 
+                      : 'hover:bg-zinc-900 text-zinc-400 border border-transparent'
+                  }`}
+                >
+                  <span className="truncate pr-2">{level.id}. {level.title}</span>
+                  <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${currentLevelId === level.id ? 'translate-x-1 text-indigo-400' : 'opacity-0 group-hover:opacity-100'}`} />
+                </button>
+              ))}
+            </div>
           ))}
         </div>
       </div>
@@ -202,7 +234,7 @@ export default function App() {
 
           {/* Execution & Tests */}
           <div className="w-full lg:w-1/2 flex flex-col bg-zinc-950 lg:h-full">
-            <div className="p-3 lg:p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50">
+            <div className="p-3 lg:p-4 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50 shrink-0">
               <h3 className="font-semibold text-zinc-200 flex items-center gap-2">
                 <Play className="w-4 h-4 text-zinc-400" /> テストケース
               </h3>
@@ -222,41 +254,55 @@ export default function App() {
             </div>
             
             {/* Test Cases List */}
-            <div className="p-3 lg:p-4 border-b border-zinc-800 flex flex-col gap-2 bg-zinc-950">
-              {currentLevel.testCases.map((tc, index) => {
-                const res = results[index];
-                const isActive = activeTestCase === index;
-                return (
-                  <button
-                    key={index}
-                    onClick={() => setActiveTestCase(index)}
-                    className={`flex items-center justify-between p-2 lg:p-3 rounded-lg border text-left transition-all w-full ${
-                      isActive 
-                        ? 'bg-zinc-900 border-zinc-700 shadow-md' 
-                        : 'bg-zinc-950 border-zinc-800 hover:border-zinc-700'
-                    }`}
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 flex-1 overflow-hidden">
-                      <div className="font-mono text-xs lg:text-sm truncate flex-1">
-                        <span className="text-zinc-500">入力:</span> <span className="text-zinc-200">{tc.input}</span>
+            <div 
+              className="border-b border-zinc-800 flex flex-col bg-zinc-950 overflow-y-auto shrink-0"
+              style={{ height: `${testCasesHeight}px` }}
+            >
+              <div className="p-3 lg:p-4 flex flex-col gap-2">
+                {currentLevel.testCases.map((tc, index) => {
+                  const res = results[index];
+                  const isActive = activeTestCase === index;
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => setActiveTestCase(index)}
+                      className={`flex items-center justify-between p-2 lg:p-3 rounded-lg border text-left transition-all w-full shrink-0 ${
+                        isActive 
+                          ? 'bg-zinc-900 border-zinc-700 shadow-md' 
+                          : 'bg-zinc-950 border-zinc-800 hover:border-zinc-700'
+                      }`}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 flex-1 overflow-hidden">
+                        <div className="font-mono text-xs lg:text-sm truncate flex-1">
+                          <span className="text-zinc-500">入力:</span> <span className="text-zinc-200">{tc.input}</span>
+                        </div>
+                        <ChevronRight className="w-3 h-3 text-zinc-700 shrink-0 hidden sm:block" />
+                        <div className="font-mono text-xs lg:text-sm truncate flex-1">
+                          <span className="text-zinc-500">目標:</span> <span className="text-indigo-400">{tc.target}</span>
+                        </div>
                       </div>
-                      <ChevronRight className="w-3 h-3 text-zinc-700 shrink-0 hidden sm:block" />
-                      <div className="font-mono text-xs lg:text-sm truncate flex-1">
-                        <span className="text-zinc-500">目標:</span> <span className="text-indigo-400">{tc.target}</span>
+                      <div className="shrink-0 ml-2 lg:ml-4">
+                        {!res || res.status === 'idle' ? (
+                          <div className="w-4 h-4 lg:w-5 lg:h-5 rounded-full border-2 border-zinc-700" />
+                        ) : res.status === 'pass' ? (
+                          <CheckCircle2 className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-500" />
+                        ) : (
+                          <XCircle className="w-4 h-4 lg:w-5 lg:h-5 text-red-500" />
+                        )}
                       </div>
-                    </div>
-                    <div className="shrink-0 ml-2 lg:ml-4">
-                      {!res || res.status === 'idle' ? (
-                        <div className="w-4 h-4 lg:w-5 lg:h-5 rounded-full border-2 border-zinc-700" />
-                      ) : res.status === 'pass' ? (
-                        <CheckCircle2 className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-500" />
-                      ) : (
-                        <XCircle className="w-4 h-4 lg:w-5 lg:h-5 text-red-500" />
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Resizer */}
+            <div 
+              className="h-3 bg-zinc-950 border-b border-zinc-800 cursor-row-resize flex items-center justify-center group shrink-0 touch-none"
+              onMouseDown={(e) => { e.preventDefault(); handleDragStart(e.clientY); }}
+              onTouchStart={(e) => { handleDragStart(e.touches[0].clientY); }}
+            >
+              <div className="w-12 h-1 bg-zinc-800 rounded-full group-hover:bg-indigo-500 transition-colors" />
             </div>
 
             {/* Visualizer */}

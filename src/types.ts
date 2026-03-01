@@ -5,6 +5,7 @@ export type TestCase = {
 
 export type Level = {
   id: number;
+  section: string;
   title: string;
   description: string;
   m: number;
