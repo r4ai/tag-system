@@ -31,6 +31,7 @@ const EXPECTED_SOLUTIONS: Record<number, Rules> = {
   12: { a: '1a', b: '2b', x: '9x', y: '8y', A: '0A', B: '1B' },
   13: { a: 'X', '0': 'L', '1': 'R', X: 'H' },
   14: { '1': 'Y', '0': '', z: 'NO', Y: '', N: 'E' },
+  15: { '1': 'H123', '2': 'H123', '3': 'H123' },
 };
 
 describe('Level behavior with expected solutions', () => {
