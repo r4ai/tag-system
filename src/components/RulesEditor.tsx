@@ -39,9 +39,6 @@ export function RulesEditor({
 
       <div
         className="h-3 bg-zinc-950 border-b border-zinc-800 cursor-row-resize flex items-center justify-center group shrink-0 touch-none"
-        role="separator"
-        aria-orientation="horizontal"
-        aria-label="問題文とルールの高さ調整"
         onMouseDown={(e) => { e.preventDefault(); onProblemDragStart(e.clientY); }}
         onTouchStart={(e) => { onProblemDragStart(e.touches[0].clientY); }}
       >

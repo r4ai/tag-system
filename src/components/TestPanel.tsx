@@ -92,9 +92,6 @@ export function TestPanel({
       {/* Resizer */}
       <div
         className="h-3 bg-zinc-950 border-b border-zinc-800 cursor-row-resize flex items-center justify-center group shrink-0 touch-none"
-        role="separator"
-        aria-orientation="horizontal"
-        aria-label="テストケースと実行トレースの高さ調整"
         onMouseDown={(e) => { e.preventDefault(); onDragStart(e.clientY); }}
         onTouchStart={(e) => { onDragStart(e.touches[0].clientY); }}
       >
