@@ -7,7 +7,11 @@ export const LEVELS: Level[] = [
     title: "最初のステップ",
     description: "タグシステムへようこそ！\n\nマシンは毎ステップ、次の 3つの操作を行います。先頭の文字を読みます。そのルールに書かれた文字列を末尾に追加します。先頭の文字を削除します。ルールのない文字を読んだとき、マシンは止まります。\n\n例：ルール「A → BC」があり、文字列が \"A\" のとき\n  ステップ 1：'A' を読む → 'BC' を末尾に追加 → 先頭の 'A' を削除 → \"BC\"\n  ステップ 2：'B' を読む → ルールなし → 停止\n  結果：\"BC\"\n\nまず 'A' を 'XYZ' に変換してみましょう。",
     m: 1,
-    testCases: [{ input: "A", target: "XYZ" }]
+    testCases: [
+      { input: "A", target: "XYZ" },
+      { input: "AA", target: "XYZXYZ" },
+      { input: "AAA", target: "XYZXYZXYZ" }
+    ]
   },
   {
     id: 2,
@@ -15,7 +19,11 @@ export const LEVELS: Level[] = [
     title: "連鎖反応",
     description: "別の文字を踏み台にすると、変換を段階的につなげられます。例えば 'A → B'、'B → C' のようにルールを組み合わせると、間接的な変換が可能になります。\n\n'A' を 'CCC' に変換してください。",
     m: 1,
-    testCases: [{ input: "A", target: "CCC" }]
+    testCases: [
+      { input: "A", target: "CCC" },
+      { input: "AA", target: "CCCCCC" },
+      { input: "AAA", target: "CCCCCCCCC" }
+    ]
   },
   {
     id: 3,
@@ -23,7 +31,11 @@ export const LEVELS: Level[] = [
     title: "ダブルステップ",
     description: "パラメータ m は「1ステップで先頭から削除する文字数」を示します。m=1 では先頭 1文字、m=2 では先頭 2文字を削除します。読み取るのは常に先頭の 1文字だけです。\n\n例：m=2 でルール「A → X」があり、文字列が \"AB\" のとき\n  ステップ 1：'A' を読む → 'X' を末尾に追加 → 先頭 2文字 'AB' を削除 → \"X\"\n  ステップ 2：'X' を読む → ルールなし → 停止\n  結果：\"X\"\n\n'AABB' を 'X' に変換してください。",
     m: 2,
-    testCases: [{ input: "AABB", target: "X" }]
+    testCases: [
+      { input: "AA", target: "X" },
+      { input: "AABB", target: "X" },
+      { input: "AABBAABB", target: "XX" }
+    ]
   },
   {
     id: 4,
@@ -31,7 +43,12 @@ export const LEVELS: Level[] = [
     title: "フィルター",
     description: "小文字（a, b, c）と大文字（A, B, C）が混在しています。小文字はそれぞれ 'x', 'y', 'z' に変換し、大文字は取り除いてください。",
     m: 1,
-    testCases: [{ input: "aAbBcC", target: "xyz" }]
+    testCases: [
+      { input: "aAbBcC", target: "xyz" },
+      { input: "abc", target: "xyz" },
+      { input: "ABC", target: "" },
+      { input: "cBaA", target: "zx" }
+    ]
   },
   {
     id: 5,
@@ -45,33 +62,39 @@ export const LEVELS: Level[] = [
     id: 6,
     section: "文字列操作",
     title: "ビット反転",
-    description: "0 と 1 で書かれた文字列の各ビットを反転させてください（0 → 1、1 → 0）。\n\n入力の先頭の 'a' は番兵です。すべてのビットを処理し終えると、'a' が再び先頭に来ます。その時点でマシンを止めましょう。",
+    description: "0 と 1 で書かれた文字列の各ビットを反転させてください（0 → 1、1 → 0）。\n\n入力の先頭の 'a' は処理開始マーカーです。最初に停止マーカー 'H' を末尾へ送り、走査完了後に 'H' が先頭に来たところで停止させてください。出力は先頭に 'H' を含む形（例: H01）です。",
     m: 1,
     testCases: [
-      { input: "a10", target: "01" },
-      { input: "a0011", target: "1100" }
+      { input: "a10", target: "H01" },
+      { input: "a0011", target: "H1100" },
+      { input: "a01", target: "H10" },
+      { input: "a111000", target: "H000111" }
     ]
   },
   {
     id: 7,
     section: "文字列操作",
     title: "Xの排除",
-    description: "文字列に含まれる 'x' をすべて取り除いてください。\n\n入力の先頭の 'a' は番兵です。すべての文字を処理し終えると、'a' が再び先頭に来ます。その時点でマシンを止めましょう。",
+    description: "文字列に含まれる 'x' をすべて取り除いてください。\n\n入力の先頭の 'a' は処理開始マーカーです。最初に停止マーカー 'H' を末尾へ送り、走査完了後に 'H' が先頭に来たところで停止させてください。出力は先頭に 'H' を含む形です。",
     m: 1,
     testCases: [
-      { input: "ax1x", target: "1" },
-      { input: "a1x2x3", target: "123" }
+      { input: "ax1x", target: "H1" },
+      { input: "a1x2x3", target: "H123" },
+      { input: "axxx", target: "H" },
+      { input: "a123", target: "H123" }
     ]
   },
   {
     id: 8,
     section: "文字列操作",
     title: "増殖バグ",
-    description: "各数字を 2つに複製してください。例えば '12' は '1122' になります。\n\n入力の先頭の 'a' は番兵です。すべての数字を処理し終えると、'a' が再び先頭に来ます。その時点でマシンを止めましょう。",
+    description: "各数字を 2つに複製してください。例えば '12' は '1122' になります。\n\n入力の先頭の 'a' は処理開始マーカーです。最初に停止マーカー 'H' を末尾へ送り、走査完了後に 'H' が先頭に来たところで停止させてください。出力は先頭に 'H' を含む形です。",
     m: 1,
     testCases: [
-      { input: "a12", target: "1122" },
-      { input: "a3", target: "33" }
+      { input: "a12", target: "H1122" },
+      { input: "a3", target: "H33" },
+      { input: "a909", target: "H990099" },
+      { input: "a4560", target: "H44556600" }
     ]
   },
   {
@@ -82,7 +105,8 @@ export const LEVELS: Level[] = [
     m: 2,
     testCases: [
       { input: "AA", target: "BBBB" },
-      { input: "AAAA", target: "BBBBBBBB" }
+      { input: "AAAA", target: "BBBBBBBB" },
+      { input: "AAAAAA", target: "BBBBBBBBBBBB" }
     ]
   },
   {
@@ -92,7 +116,9 @@ export const LEVELS: Level[] = [
     description: "'12' のペア 1組を '3' 1個に変換してください。例えば '1212'（2組）は '33'、'12121212'（4組）は '3333' になります。",
     m: 2,
     testCases: [
+      { input: "12", target: "3" },
       { input: "1212", target: "33" },
+      { input: "121212", target: "333" },
       { input: "12121212", target: "3333" }
     ]
   },
@@ -103,8 +129,10 @@ export const LEVELS: Level[] = [
     description: "小文字と数字が交互に並んでいます（例：'a1b2c3'）。数字はすべて取り除き、小文字は大文字に変換してください（例：'ABC'）。",
     m: 2,
     testCases: [
+      { input: "z9", target: "Z" },
       { input: "a1b2", target: "AB" },
-      { input: "a1b2c3", target: "ABC" }
+      { input: "a1b2c3", target: "ABC" },
+      { input: "m4n5", target: "MN" }
     ]
   },
   {
@@ -115,20 +143,25 @@ export const LEVELS: Level[] = [
     m: 2,
     testCases: [
       { input: "a1", target: "1a" },
-      { input: "a1b2", target: "1a2b" }
+      { input: "a1b2", target: "1a2b" },
+      { input: "x9y8", target: "9x8y" },
+      { input: "A0B1", target: "0A1B" }
     ]
   },
   {
     id: 13,
     section: "計算理論",
     title: "コラッツ予想",
-    description: "'a' の個数が整数 N を表します（例：'aaa' は 3）。出力も 'a' の個数で整数を表します。\n\nN が偶数なら N÷2 を、奇数なら 3N+1 を出力してください。\n\nヒント：先頭から 2文字ずつ処理されます。偶数個の場合はきれいに割り切れますが、奇数個の場合は最後に 'a' が 1文字余ります。この差を偶奇の判定に利用しましょう。",
+    description: "'a' の個数が整数 N を表します（例：'aaa' は 3）。出力も 'a' の個数で整数を表します。\n\nN が偶数なら N÷2 を、奇数なら 3N+1 を出力してください。入力の N は 2 以上です。\n\nヒント：先頭から 2文字ずつ処理されます。偶数個の場合はきれいに割り切れますが、奇数個の場合は最後に 'a' が 1文字余ります。この差を偶奇の判定に利用しましょう。",
     m: 2,
     testCases: [
+      { input: "aa", target: "a" }, // 2 -> 1
       { input: "aaaa", target: "aa" }, // 4 -> 2
       { input: "aaaaaa", target: "aaa" }, // 6 -> 3
+      { input: "aaaaaaaa", target: "aaaa" }, // 8 -> 4
       { input: "aaa", target: "aaaaaaaaaa" }, // 3 -> 10
-      { input: "aaaaa", target: "aaaaaaaaaaaaaaaa" } // 5 -> 16
+      { input: "aaaaa", target: "aaaaaaaaaaaaaaaa" }, // 5 -> 16
+      { input: "aaaaaaa", target: "aaaaaaaaaaaaaaaaaaaaaa" } // 7 -> 22
     ]
   },
   {
@@ -142,8 +175,11 @@ export const LEVELS: Level[] = [
       { input: "a1", target: "10" },
       { input: "a10", target: "11" },
       { input: "a11", target: "100" },
+      { input: "a1000", target: "1001" },
+      { input: "a1010", target: "1011" },
       { input: "a1011", target: "1100" },
-      { input: "a1111", target: "10000" }
+      { input: "a1111", target: "10000" },
+      { input: "a111111", target: "1000000" }
     ]
   },
   {
@@ -155,8 +191,11 @@ export const LEVELS: Level[] = [
     testCases: [
       { input: "a000", target: "E" },
       { input: "a1", target: "O" },
+      { input: "a01", target: "O" },
       { input: "a101", target: "E" },
       { input: "a111", target: "O" },
+      { input: "a1100", target: "E" },
+      { input: "a1111", target: "E" },
       { input: "a1010101", target: "E" }
     ]
   },
@@ -171,11 +210,13 @@ export const LEVELS: Level[] = [
       { input: "()()", target: "Y" },
       { input: "(())", target: "Y" },
       { input: "(()())", target: "Y" },
-      { input: "(", target: "N" },
-      { input: ")", target: "N" },
+      { input: "((()))", target: "Y" },
+      { input: "(()(()))", target: "Y" },
       { input: ")(", target: "N" },
       { input: "(()", target: "N" },
-      { input: "())", target: "N" }
+      { input: "())", target: "N" },
+      { input: "())(", target: "N" },
+      { input: "((())", target: "N" }
     ]
   }
 ];
