@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { Menu } from 'lucide-react';
+import { useParams, useNavigate } from '@tanstack/react-router';
 import { useGameState } from './hooks/useGameState';
 import { useResizablePanel } from './hooks/useResizablePanel';
 import { Sidebar } from './components/Sidebar';
 import { RulesEditor } from './components/RulesEditor';
 import { TestPanel } from './components/TestPanel';
 import { ExplanationModal } from './components/ExplanationModal';
+import { LEVELS } from './constants';
 
 export default function App() {
+  const { levelId: levelIdParam } = useParams({ from: '/levels/$levelId' });
+  const levelId = Math.max(1, parseInt(levelIdParam, 10) || 1);
+  const validLevel = LEVELS.find(l => l.id === levelId);
+  const effectiveLevelId = validLevel ? levelId : 1;
+  const navigate = useNavigate();
+
   const {
-    currentLevelId,
-    setCurrentLevelId,
     currentLevel,
     currentRules,
     results,
@@ -25,7 +31,7 @@ export default function App() {
     startStepping,
     stepForward,
     resetActiveTestCase,
-  } = useGameState();
+  } = useGameState(effectiveLevelId);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isExplanationOpen, setIsExplanationOpen] = useState(false);
@@ -33,14 +39,14 @@ export default function App() {
   const { height: problemHeight, handleDragStart: handleProblemDragStart } = useResizablePanel(200);
 
   const handleSelectLevel = (id: number) => {
-    setCurrentLevelId(id);
+    navigate({ to: '/levels/$levelId', params: { levelId: String(id) } });
     setIsSidebarOpen(false);
   };
 
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-300 flex font-sans selection:bg-indigo-500/30 lg:h-dvh lg:overflow-hidden">
       <Sidebar
-        currentLevelId={currentLevelId}
+        currentLevelId={effectiveLevelId}
         isOpen={isSidebarOpen}
         onSelectLevel={handleSelectLevel}
         onClose={() => setIsSidebarOpen(false)}

@@ -5,8 +5,7 @@ import { simulateTagSystem } from '../utils/tagSystem';
 
 const EMPTY_RULES: Rule[] = [];
 
-export function useGameState() {
-  const [currentLevelId, setCurrentLevelId] = useState(1);
+export function useGameState(levelId: number) {
   const [rulesByLevel, setRulesByLevel] = useState<Record<number, Rule[]>>({});
   const [results, setResults] = useState<Record<number, TestCaseResult>>({});
   const [activeTestCase, setActiveTestCase] = useState(0);
@@ -29,17 +28,17 @@ export function useGameState() {
     }
   }, [rulesByLevel]);
 
-  const currentLevel = LEVELS.find(l => l.id === currentLevelId)!;
-  const currentRules = rulesByLevel[currentLevelId] ?? EMPTY_RULES;
+  const currentLevel = LEVELS.find(l => l.id === levelId) ?? LEVELS[0];
+  const currentRules = rulesByLevel[levelId] ?? EMPTY_RULES;
 
   useEffect(() => {
     setResults({});
     setActiveTestCase(0);
     setStepIndex(-1);
-  }, [rulesByLevel[currentLevelId], currentLevelId]);
+  }, [rulesByLevel[levelId], levelId]);
 
   const updateRules = (newRules: Rule[]) => {
-    setRulesByLevel(prev => ({ ...prev, [currentLevelId]: newRules }));
+    setRulesByLevel(prev => ({ ...prev, [levelId]: newRules }));
   };
 
   const addRule = () => {
@@ -135,8 +134,6 @@ export function useGameState() {
     currentLevel.testCases.every((_, i) => results[i]?.status === 'pass');
 
   return {
-    currentLevelId,
-    setCurrentLevelId,
     currentLevel,
     currentRules,
     results,
