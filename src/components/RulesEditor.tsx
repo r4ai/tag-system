@@ -32,7 +32,7 @@ export function RulesEditor({
         className="border-b border-zinc-800 overflow-y-auto shrink-0 bg-zinc-950"
         style={{ height: `${problemHeight}px` }}
       >
-        <p className="text-zinc-400 text-sm leading-relaxed whitespace-pre-wrap p-3 lg:p-4">
+        <p className="text-zinc-100 text-sm leading-relaxed whitespace-pre-wrap p-3 lg:p-4">
           {problemDescription}
         </p>
       </div>
