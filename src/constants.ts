@@ -273,11 +273,126 @@ export const LEVELS: Level[] = [
   },
   {
     id: 13,
+    section: "発展チャレンジ",
+    title: "逆側ストッパー",
+    description: dedent`
+      入力は \`a\` に続く 2 進数文字列です。
+
+      - \`0\` は \`L\` に変換
+      - \`1\` は \`R\` に変換
+      - 停止マーカー \`H\` を文字列の**末尾**に 1 つ置く
+
+      例えば \`a10\` は \`RLH\` になります。
+
+      **制約：** 入力は \`a\` に続く \`0\` と \`1\` のみで構成されます。
+    `,
+    m: 1,
+    testCases: [
+      { input: "a0", target: "LH" },
+      { input: "a1", target: "RH" },
+      { input: "a10", target: "RLH" },
+      { input: "a0011", target: "LLRRH" },
+      { input: "a1010", target: "RLRLH" },
+      { input: "a111000", target: "RRRLLLH" }
+    ]
+  },
+  {
+    id: 14,
+    section: "発展チャレンジ",
+    title: "偶奇トリガー",
+    description: dedent`
+      入力は \`0x\` または \`1x\` のブロックが 0 回以上続き、最後に \`zx\` が付きます。
+
+      \`1x\` の個数を数えてください。
+
+      - 偶数個なら \`E\`
+      - 奇数個なら \`O\`
+
+      を出力してください。
+
+      **例：** \`1x0x1xzx\` には \`1x\` が 2 個あるので、出力は \`E\` です。
+
+      **制約：** 入力は、 \`0x\` または \`1x\` の 0 回以上の繰り返しに \`zx\` が続く形です。
+    `,
+    m: 2,
+    testCases: [
+      { input: "zx", target: "E" },
+      { input: "1xzx", target: "O" },
+      { input: "0xzx", target: "E" },
+      { input: "1x0x1xzx", target: "E" },
+      { input: "1x1x0xzx", target: "E" },
+      { input: "0x1x0xzx", target: "O" },
+      { input: "1x1x1x0x1xzx", target: "E" },
+      { input: "1x1x1xzx", target: "O" }
+    ]
+  },
+  {
+    id: 15,
+    section: "発展チャレンジ",
+    title: "3要素ソート（6通り）",
+    description: dedent`
+      入力は \`1\`, \`2\`, \`3\` を 1 回ずつ使った 3 文字列です。
+      つまり、入力は次の 6 通りのどれかです。
+
+      - \`123\`, \`132\`, \`213\`, \`231\`, \`312\`, \`321\`
+
+      この 3 要素を昇順に並べた結果を出力してください。
+
+      出力は先頭に停止マーカー \`H\` を含む形（\`H123\`）です。
+
+      **制約：** 入力は上記 6 通りのいずれかです。
+    `,
+    m: 3,
+    testCases: [
+      { input: "123", target: "H123" },
+      { input: "132", target: "H123" },
+      { input: "213", target: "H123" },
+      { input: "231", target: "H123" },
+      { input: "312", target: "H123" },
+      { input: "321", target: "H123" }
+    ]
+  },
+  {
+    id: 16,
+    section: "計算理論",
+    title: "任意長の一般ソート",
+    description: dedent`
+      > **注意：この問題は極めて困難であり、解が存在しない可能性があります。**
+
+      入力は \`a\` に続く数字列です（使用文字は \`0\`〜\`3\`）。
+
+      この数字列を昇順に並べ替えてください。
+      同じ数字は個数を保ったまま出力します。
+
+      出力は先頭に停止マーカー \`H\` を含む形です。
+
+      **例：**
+
+      - \`a321\` → \`H123\`
+      - \`a330221\` → \`H012233\`
+
+      **制約：** 入力は \`a\` に続く \`0\`〜\`3\` の任意長文字列です（空文字列も可）。
+    `,
+    m: 1,
+    testCases: [
+      { input: "a", target: "H" },
+      { input: "a0", target: "H0" },
+      { input: "a321", target: "H123" },
+      { input: "a330221", target: "H012233" },
+      { input: "a111000", target: "H000111" },
+      { input: "a203010", target: "H000123" }
+    ]
+  },
+  {
+    id: 17,
     section: "計算理論",
     title: "コラッツ予想",
     description: dedent`
+      > **注意：この問題は極めて困難であり、解が存在しない可能性があります。**
+
       \`a\` の個数で整数 $N$ を表します（例：\`aaa\` は $N = 3$）。
       出力も \`a\` の個数で整数を表します。
+      出力は先頭に停止マーカー \`H\` を含む形です。
 
       ここで、関数 $f(N)$ を次のように定義します。
 
@@ -285,7 +400,7 @@ export const LEVELS: Level[] = [
       f(N) = \begin{cases} N / 2 & \text{if } N \text{ is even} \\ 3N + 1 & \text{if } N \text{ is odd} \end{cases}
       $$
 
-      **問題：** $f(N)$ を出力してください。
+      **問題：** $f(N)$ を \`H\` 付きで出力してください。
 
       **制約：** 入力は \`a\` のみで構成され、$N \geq 2$ です。
 
@@ -294,74 +409,81 @@ export const LEVELS: Level[] = [
         \`a\` の個数は 2 なので $N = 2$。
         $N$ は偶数だから $f(2) = 2 / 2 = 1$。
 
-        よって、出力は \`a\` 1 個。つまり \`a\` になります。
+        よって、出力は \`a\` 1 個。停止マーカー付きで \`Ha\` になります。
     `,
     m: 2,
     testCases: [
-      { input: "aa", target: "a" },
-      { input: "aaaa", target: "aa" },
-      { input: "aaaaaa", target: "aaa" },
-      { input: "aaaaaaaa", target: "aaaa" },
-      { input: "aaa", target: "aaaaaaaaaa" },
-      { input: "aaaaa", target: "aaaaaaaaaaaaaaaa" },
-      { input: "aaaaaaa", target: "aaaaaaaaaaaaaaaaaaaaaa" }
+      { input: "aa", target: "Ha" },
+      { input: "aaaa", target: "Haa" },
+      { input: "aaaaaa", target: "Haaa" },
+      { input: "aaaaaaaa", target: "Haaaa" },
+      { input: "aaa", target: "Haaaaaaaaaa" },
+      { input: "aaaaa", target: "Haaaaaaaaaaaaaaaa" },
+      { input: "aaaaaaa", target: "Haaaaaaaaaaaaaaaaaaaaaa" }
     ]
   },
   {
-    id: 14,
+    id: 18,
     section: "計算理論",
     title: "2進数インクリメント",
     description: dedent`
+      > **注意：この問題は極めて困難であり、解が存在しない可能性があります。**
+
       入力は \`a\` に続く 2 進数文字列です（例：\`a101\` は $5_{(2)}$）。
-      この 2 進数に $1$ を加えた値を出力してください（例：\`a101\` → \`110\` $= 6$）。
+      この 2 進数に $1$ を加えた値を出力してください。
+      出力は先頭に停止マーカー \`H\` を含む形です（例：\`a101\` → \`H110\`）。
 
       **制約：** 入力は \`a\` に続く \`0\` と \`1\` のみで構成されます。
     `,
     m: 1,
     testCases: [
-      { input: "a0", target: "1" },
-      { input: "a1", target: "10" },
-      { input: "a10", target: "11" },
-      { input: "a11", target: "100" },
-      { input: "a1000", target: "1001" },
-      { input: "a1010", target: "1011" },
-      { input: "a1011", target: "1100" },
-      { input: "a1111", target: "10000" },
-      { input: "a111111", target: "1000000" }
+      { input: "a0", target: "H1" },
+      { input: "a1", target: "H10" },
+      { input: "a10", target: "H11" },
+      { input: "a11", target: "H100" },
+      { input: "a1000", target: "H1001" },
+      { input: "a1010", target: "H1011" },
+      { input: "a1011", target: "H1100" },
+      { input: "a1111", target: "H10000" },
+      { input: "a111111", target: "H1000000" }
     ]
   },
   {
-    id: 15,
+    id: 19,
     section: "計算理論",
     title: "パリティチェック",
     description: dedent`
+      > **注意：この問題は極めて困難であり、解が存在しない可能性があります。**
+
       入力は \`a\` に続く 2 進数文字列です（例：\`a101\`）。
       文字列に含まれる \`1\` の個数を数えます。
 
-      - 偶数個なら \`E\`（Even）を出力
-      - 奇数個なら \`O\`（Odd）を出力
+      - 偶数個なら \`HE\`（Even）
+      - 奇数個なら \`HO\`（Odd）
 
       **制約：** 入力は \`a\` に続く \`0\` と \`1\` のみで構成されます。
     `,
     m: 1,
     testCases: [
-      { input: "a000", target: "E" },
-      { input: "a1", target: "O" },
-      { input: "a01", target: "O" },
-      { input: "a101", target: "E" },
-      { input: "a111", target: "O" },
-      { input: "a1100", target: "E" },
-      { input: "a1111", target: "E" },
-      { input: "a1010101", target: "E" }
+      { input: "a000", target: "HE" },
+      { input: "a1", target: "HO" },
+      { input: "a01", target: "HO" },
+      { input: "a101", target: "HE" },
+      { input: "a111", target: "HO" },
+      { input: "a1100", target: "HE" },
+      { input: "a1111", target: "HE" },
+      { input: "a1010101", target: "HE" }
     ]
   },
   {
-    id: 16,
+    id: 20,
     section: "計算理論",
     title: "括弧の対応",
     description: dedent`
+      > **注意：この問題は極めて困難であり、解が存在しない可能性があります。**
+
       \`(\` と \`)\` だけで構成される文字列があります。
-      括弧が正しく対応していれば \`Y\`、していなければ \`N\` を出力してください。
+      括弧が正しく対応していれば \`HY\`、していなければ \`HN\` を出力してください。
 
       「正しい対応」とは、すべての \`(\` に対応する \`)\` があり、順序も矛盾していない状態です。
       \`(())\` は正しく、\`)(\` は正しくありません。
@@ -370,17 +492,17 @@ export const LEVELS: Level[] = [
     `,
     m: 2,
     testCases: [
-      { input: "()", target: "Y" },
-      { input: "()()", target: "Y" },
-      { input: "(())", target: "Y" },
-      { input: "(()())", target: "Y" },
-      { input: "((()))", target: "Y" },
-      { input: "(()(()))", target: "Y" },
-      { input: ")(", target: "N" },
-      { input: "(()", target: "N" },
-      { input: "())", target: "N" },
-      { input: "())(", target: "N" },
-      { input: "((())", target: "N" }
+      { input: "()", target: "HY" },
+      { input: "()()", target: "HY" },
+      { input: "(())", target: "HY" },
+      { input: "(()())", target: "HY" },
+      { input: "((()))", target: "HY" },
+      { input: "(()(()))", target: "HY" },
+      { input: ")(", target: "HN" },
+      { input: "(()", target: "HN" },
+      { input: "())", target: "HN" },
+      { input: "())(", target: "HN" },
+      { input: "((())", target: "HN" }
     ]
   }
 ];
