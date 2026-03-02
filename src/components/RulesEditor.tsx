@@ -1,13 +1,13 @@
-import React from 'react';
-import { Plus, Trash2, BookOpen, Info, FileText } from 'lucide-react';
-import { Rule } from '../types';
-import { ProblemDescription } from './ProblemDescription';
+import React from "react";
+import { Plus, Trash2, BookOpen, Info, FileText } from "lucide-react";
+import { Rule } from "../types";
+import { ProblemDescription } from "./ProblemDescription";
 
 type Props = {
   problemDescription: string;
   rules: Rule[];
   onAddRule: () => void;
-  onUpdateRule: (id: string, field: 'from' | 'to', value: string) => void;
+  onUpdateRule: (id: string, field: "from" | "to", value: string) => void;
   onDeleteRule: (id: string) => void;
   problemHeight: number;
   onProblemDragStart: (startY: number) => void;
@@ -38,8 +38,13 @@ export function RulesEditor({
 
       <div
         className="h-3 bg-zinc-950 border-b border-zinc-800 cursor-row-resize flex items-center justify-center group shrink-0 touch-none"
-        onMouseDown={(e) => { e.preventDefault(); onProblemDragStart(e.clientY); }}
-        onTouchStart={(e) => { onProblemDragStart(e.touches[0].clientY); }}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          onProblemDragStart(e.clientY);
+        }}
+        onTouchStart={(e) => {
+          onProblemDragStart(e.touches[0].clientY);
+        }}
       >
         <div className="w-12 h-1 bg-zinc-800 rounded-full group-hover:bg-indigo-500 transition-colors" />
       </div>
@@ -63,13 +68,18 @@ export function RulesEditor({
           </div>
         ) : (
           rules.map((rule, index) => (
-            <div key={rule.id} className="flex items-center gap-2 lg:gap-3 group bg-zinc-900/50 p-2 rounded-lg border border-zinc-800/50 hover:border-zinc-700 transition-colors">
-              <div className="text-zinc-600 font-mono text-xs w-4 text-right hidden sm:block">{index + 1}</div>
+            <div
+              key={rule.id}
+              className="flex items-center gap-2 lg:gap-3 group bg-zinc-900/50 p-2 rounded-lg border border-zinc-800/50 hover:border-zinc-700 transition-colors"
+            >
+              <div className="text-zinc-600 font-mono text-xs w-4 text-right hidden sm:block">
+                {index + 1}
+              </div>
               <input
                 type="text"
                 maxLength={1}
                 value={rule.from}
-                onChange={e => onUpdateRule(rule.id, 'from', e.target.value)}
+                onChange={(e) => onUpdateRule(rule.id, "from", e.target.value)}
                 className="w-10 lg:w-12 h-10 bg-zinc-950 border border-zinc-800 rounded text-center font-mono text-base lg:text-lg text-zinc-100 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all placeholder:text-zinc-800"
                 placeholder="A"
               />
@@ -77,7 +87,7 @@ export function RulesEditor({
               <input
                 type="text"
                 value={rule.to}
-                onChange={e => onUpdateRule(rule.id, 'to', e.target.value)}
+                onChange={(e) => onUpdateRule(rule.id, "to", e.target.value)}
                 className="flex-1 h-10 bg-zinc-950 border border-zinc-800 rounded px-2 lg:px-3 font-mono text-base lg:text-lg text-zinc-100 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all placeholder:text-zinc-800 min-w-0"
                 placeholder="XYZ"
               />

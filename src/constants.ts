@@ -1,5 +1,5 @@
-import dedent from 'dedent';
-import { Level } from './types';
+import dedent from "dedent";
+import { Level } from "./types";
 
 export const LEVELS: Level[] = [
   {
@@ -30,8 +30,8 @@ export const LEVELS: Level[] = [
     testCases: [
       { input: "A", target: "XYZ" },
       { input: "AA", target: "XYZXYZ" },
-      { input: "AAA", target: "XYZXYZXYZ" }
-    ]
+      { input: "AAA", target: "XYZXYZXYZ" },
+    ],
   },
   {
     id: 2,
@@ -56,8 +56,8 @@ export const LEVELS: Level[] = [
     testCases: [
       { input: "A", target: "H" },
       { input: "AA", target: "HCH" },
-      { input: "AAA", target: "HCHCH" }
-    ]
+      { input: "AAA", target: "HCHCH" },
+    ],
   },
   {
     id: 3,
@@ -86,8 +86,8 @@ export const LEVELS: Level[] = [
     testCases: [
       { input: "AA", target: "X" },
       { input: "AABB", target: "X" },
-      { input: "AABBAABB", target: "XX" }
-    ]
+      { input: "AABBAABB", target: "XX" },
+    ],
   },
   {
     id: 4,
@@ -106,8 +106,8 @@ export const LEVELS: Level[] = [
       { input: "aAbBcC", target: "xyz" },
       { input: "abc", target: "xyz" },
       { input: "ABC", target: "" },
-      { input: "cBaA", target: "zx" }
-    ]
+      { input: "cBaA", target: "zx" },
+    ],
   },
   {
     id: 5,
@@ -122,7 +122,7 @@ export const LEVELS: Level[] = [
       > 処理を特定のタイミングで止めたいとき、この性質を活用できます。
     `,
     m: 1,
-    testCases: [{ input: "123", target: "0321" }]
+    testCases: [{ input: "123", target: "0321" }],
   },
   {
     id: 6,
@@ -144,8 +144,8 @@ export const LEVELS: Level[] = [
       { input: "a10", target: "H01" },
       { input: "a0011", target: "H1100" },
       { input: "a01", target: "H10" },
-      { input: "a111000", target: "H000111" }
-    ]
+      { input: "a111000", target: "H000111" },
+    ],
   },
   {
     id: 7,
@@ -167,8 +167,8 @@ export const LEVELS: Level[] = [
       { input: "ax1x", target: "H1" },
       { input: "a1x2x3", target: "H123" },
       { input: "axxx", target: "H" },
-      { input: "a123", target: "H123" }
-    ]
+      { input: "a123", target: "H123" },
+    ],
   },
   {
     id: 8,
@@ -190,8 +190,8 @@ export const LEVELS: Level[] = [
       { input: "a12", target: "H1122" },
       { input: "a3", target: "H33" },
       { input: "a909", target: "H990099" },
-      { input: "a4560", target: "H44556600" }
-    ]
+      { input: "a4560", target: "H44556600" },
+    ],
   },
   {
     id: 9,
@@ -211,8 +211,8 @@ export const LEVELS: Level[] = [
     testCases: [
       { input: "AA", target: "BBBB" },
       { input: "AAAA", target: "BBBBBBBB" },
-      { input: "AAAAAA", target: "BBBBBBBBBBBB" }
-    ]
+      { input: "AAAAAA", target: "BBBBBBBBBBBB" },
+    ],
   },
   {
     id: 10,
@@ -230,8 +230,8 @@ export const LEVELS: Level[] = [
       { input: "12", target: "3" },
       { input: "1212", target: "33" },
       { input: "121212", target: "333" },
-      { input: "12121212", target: "3333" }
-    ]
+      { input: "12121212", target: "3333" },
+    ],
   },
   {
     id: 11,
@@ -249,8 +249,8 @@ export const LEVELS: Level[] = [
       { input: "z9", target: "Z" },
       { input: "a1b2", target: "AB" },
       { input: "a1b2c3", target: "ABC" },
-      { input: "m4n5", target: "MN" }
-    ]
+      { input: "m4n5", target: "MN" },
+    ],
   },
   {
     id: 12,
@@ -268,8 +268,8 @@ export const LEVELS: Level[] = [
       { input: "a1", target: "1a" },
       { input: "a1b2", target: "1a2b" },
       { input: "x9y8", target: "9x8y" },
-      { input: "A0B1", target: "0A1B" }
-    ]
+      { input: "A0B1", target: "0A1B" },
+    ],
   },
   {
     id: 13,
@@ -293,8 +293,8 @@ export const LEVELS: Level[] = [
       { input: "a10", target: "RLH" },
       { input: "a0011", target: "LLRRH" },
       { input: "a1010", target: "RLRLH" },
-      { input: "a111000", target: "RRRLLLH" }
-    ]
+      { input: "a111000", target: "RRRLLLH" },
+    ],
   },
   {
     id: 14,
@@ -323,8 +323,8 @@ export const LEVELS: Level[] = [
       { input: "1x1x0xzx", target: "E" },
       { input: "0x1x0xzx", target: "O" },
       { input: "1x1x1x0x1xzx", target: "E" },
-      { input: "1x1x1xzx", target: "O" }
-    ]
+      { input: "1x1x1xzx", target: "O" },
+    ],
   },
   {
     id: 15,
@@ -349,8 +349,8 @@ export const LEVELS: Level[] = [
       { input: "213", target: "H123" },
       { input: "231", target: "H123" },
       { input: "312", target: "H123" },
-      { input: "321", target: "H123" }
-    ]
+      { input: "321", target: "H123" },
+    ],
   },
   {
     id: 16,
@@ -380,8 +380,8 @@ export const LEVELS: Level[] = [
       { input: "a321", target: "H123" },
       { input: "a330221", target: "H012233" },
       { input: "a111000", target: "H000111" },
-      { input: "a203010", target: "H000123" }
-    ]
+      { input: "a203010", target: "H000123" },
+    ],
   },
   {
     id: 17,
@@ -419,8 +419,8 @@ export const LEVELS: Level[] = [
       { input: "aaaaaaaa", target: "Haaaa" },
       { input: "aaa", target: "Haaaaaaaaaa" },
       { input: "aaaaa", target: "Haaaaaaaaaaaaaaaa" },
-      { input: "aaaaaaa", target: "Haaaaaaaaaaaaaaaaaaaaaa" }
-    ]
+      { input: "aaaaaaa", target: "Haaaaaaaaaaaaaaaaaaaaaa" },
+    ],
   },
   {
     id: 18,
@@ -445,8 +445,8 @@ export const LEVELS: Level[] = [
       { input: "a1010", target: "H1011" },
       { input: "a1011", target: "H1100" },
       { input: "a1111", target: "H10000" },
-      { input: "a111111", target: "H1000000" }
-    ]
+      { input: "a111111", target: "H1000000" },
+    ],
   },
   {
     id: 19,
@@ -472,8 +472,8 @@ export const LEVELS: Level[] = [
       { input: "a111", target: "HO" },
       { input: "a1100", target: "HE" },
       { input: "a1111", target: "HE" },
-      { input: "a1010101", target: "HE" }
-    ]
+      { input: "a1010101", target: "HE" },
+    ],
   },
   {
     id: 20,
@@ -502,7 +502,7 @@ export const LEVELS: Level[] = [
       { input: "(()", target: "HN" },
       { input: "())", target: "HN" },
       { input: "())(", target: "HN" },
-      { input: "((())", target: "HN" }
-    ]
-  }
+      { input: "((())", target: "HN" },
+    ],
+  },
 ];

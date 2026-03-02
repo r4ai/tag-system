@@ -1,6 +1,12 @@
-import { createRootRoute, createRoute, createRouter, redirect, Outlet } from '@tanstack/react-router';
-import React from 'react';
-import App from './App';
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  redirect,
+  Outlet,
+} from "@tanstack/react-router";
+import React from "react";
+import App from "./App";
 
 const rootRoute = createRootRoute({
   component: () => React.createElement(Outlet, null),
@@ -8,15 +14,15 @@ const rootRoute = createRootRoute({
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/',
+  path: "/",
   beforeLoad: () => {
-    throw redirect({ to: '/levels/$levelId', params: { levelId: '1' } });
+    throw redirect({ to: "/levels/$levelId", params: { levelId: "1" } });
   },
 });
 
 const levelRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/levels/$levelId',
+  path: "/levels/$levelId",
   component: App,
 });
 
@@ -28,7 +34,7 @@ export const router = createRouter({
   basepath: import.meta.env.BASE_URL,
 });
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router;
   }

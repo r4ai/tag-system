@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export function useResizablePanel(initialHeight = 250) {
   const [height, setHeight] = useState(initialHeight);
@@ -15,18 +15,18 @@ export function useResizablePanel(initialHeight = 250) {
     };
 
     const handleUp = () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleUp);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleUp);
-      document.removeEventListener('touchcancel', handleUp);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleUp);
+      document.removeEventListener("touchmove", handleTouchMove);
+      document.removeEventListener("touchend", handleUp);
+      document.removeEventListener("touchcancel", handleUp);
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleUp);
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    document.addEventListener('touchend', handleUp);
-    document.addEventListener('touchcancel', handleUp);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleUp);
+    document.addEventListener("touchmove", handleTouchMove, { passive: false });
+    document.addEventListener("touchend", handleUp);
+    document.addEventListener("touchcancel", handleUp);
   };
 
   return { height, handleDragStart };

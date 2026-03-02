@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Menu } from 'lucide-react';
-import { useParams, useNavigate } from '@tanstack/react-router';
-import { useGameState } from './hooks/useGameState';
-import { useResizablePanel } from './hooks/useResizablePanel';
-import { Sidebar } from './components/Sidebar';
-import { RulesEditor } from './components/RulesEditor';
-import { TestPanel } from './components/TestPanel';
-import { ExplanationModal } from './components/ExplanationModal';
-import { LEVELS } from './constants';
+import React, { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
+import { useParams, useNavigate } from "@tanstack/react-router";
+import { useGameState } from "./hooks/useGameState";
+import { useResizablePanel } from "./hooks/useResizablePanel";
+import { Sidebar } from "./components/Sidebar";
+import { RulesEditor } from "./components/RulesEditor";
+import { TestPanel } from "./components/TestPanel";
+import { ExplanationModal } from "./components/ExplanationModal";
+import { LEVELS } from "./constants";
 
 export default function App() {
-  const { levelId: levelIdParam } = useParams({ from: '/levels/$levelId' });
+  const { levelId: levelIdParam } = useParams({ from: "/levels/$levelId" });
   const parsedLevelId = /^\d+$/.test(levelIdParam) ? Number.parseInt(levelIdParam, 10) : Number.NaN;
-  const validLevel = LEVELS.find(l => l.id === parsedLevelId);
+  const validLevel = LEVELS.find((l) => l.id === parsedLevelId);
   const effectiveLevelId = validLevel?.id ?? LEVELS[0]?.id ?? 1;
   const navigate = useNavigate();
 
   useEffect(() => {
     if (validLevel) return;
     navigate({
-      to: '/levels/$levelId',
+      to: "/levels/$levelId",
       params: { levelId: String(effectiveLevelId) },
       replace: true,
     });
@@ -48,7 +48,7 @@ export default function App() {
   const { height: problemHeight, handleDragStart: handleProblemDragStart } = useResizablePanel(200);
 
   const handleSelectLevel = (id: number) => {
-    navigate({ to: '/levels/$levelId', params: { levelId: String(id) } });
+    navigate({ to: "/levels/$levelId", params: { levelId: String(id) } });
     setIsSidebarOpen(false);
   };
 
@@ -66,20 +66,27 @@ export default function App() {
         {/* Header */}
         <div className="px-3 py-2.5 lg:px-4 lg:py-3 border-b border-zinc-800 bg-zinc-900/30 shrink-0">
           <div className="flex items-center gap-3 mb-2 lg:hidden">
-            <button onClick={() => setIsSidebarOpen(true)} className="text-zinc-400 hover:text-zinc-100">
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="text-zinc-400 hover:text-zinc-100"
+            >
               <Menu className="w-6 h-6" />
             </button>
             <div className="flex items-center gap-3 min-w-0 flex-1">
               <h2 className="text-xl font-bold text-zinc-100 truncate">{currentLevel.title}</h2>
               <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/40 bg-indigo-500/10 px-2 py-0.5 shrink-0">
-                <span className="text-base font-mono font-semibold text-indigo-300">m = {currentLevel.m}</span>
+                <span className="text-base font-mono font-semibold text-indigo-300">
+                  m = {currentLevel.m}
+                </span>
               </div>
             </div>
           </div>
           <div className="hidden lg:flex items-center gap-3 lg:gap-4">
             <h2 className="text-2xl font-bold text-zinc-100 truncate">{currentLevel.title}</h2>
             <div className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/40 bg-indigo-500/10 px-2.5 py-0.5 shrink-0">
-              <span className="text-base font-mono font-semibold text-indigo-300">m = {currentLevel.m}</span>
+              <span className="text-base font-mono font-semibold text-indigo-300">
+                m = {currentLevel.m}
+              </span>
             </div>
           </div>
         </div>

@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { LEVELS } from '../constants';
-import { Rule, TestCaseResult } from '../types';
-import { simulateTagSystem } from '../utils/tagSystem';
+import { useState, useEffect } from "react";
+import { LEVELS } from "../constants";
+import { Rule, TestCaseResult } from "../types";
+import { simulateTagSystem } from "../utils/tagSystem";
 
 const EMPTY_RULES: Rule[] = [];
-const STORAGE_KEY = 'tagSystemRules:v2';
-const LEGACY_STORAGE_KEY = 'tagSystemRules';
+const STORAGE_KEY = "tagSystemRules:v2";
+const LEGACY_STORAGE_KEY = "tagSystemRules";
 const LEGACY_LEVEL_ID_MIGRATION: Record<number, number> = {
   13: 17,
   14: 18,
@@ -40,7 +40,7 @@ export function useGameState(levelId: number) {
       try {
         setRulesByLevel(JSON.parse(savedRules));
       } catch (e) {
-        console.error('Failed to parse saved rules', e);
+        console.error("Failed to parse saved rules", e);
       }
       return;
     }
@@ -53,7 +53,7 @@ export function useGameState(levelId: number) {
         setRulesByLevel(migrated);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
       } catch (e) {
-        console.error('Failed to parse legacy saved rules', e);
+        console.error("Failed to parse legacy saved rules", e);
       }
     }
   }, []);
@@ -64,7 +64,7 @@ export function useGameState(levelId: number) {
     }
   }, [rulesByLevel]);
 
-  const currentLevel = LEVELS.find(l => l.id === levelId) ?? LEVELS[0];
+  const currentLevel = LEVELS.find((l) => l.id === levelId) ?? LEVELS[0];
   const currentRules = rulesByLevel[levelId] ?? EMPTY_RULES;
 
   useEffect(() => {
@@ -74,19 +74,19 @@ export function useGameState(levelId: number) {
   }, [rulesByLevel[levelId], levelId]);
 
   const updateRules = (newRules: Rule[]) => {
-    setRulesByLevel(prev => ({ ...prev, [levelId]: newRules }));
+    setRulesByLevel((prev) => ({ ...prev, [levelId]: newRules }));
   };
 
   const addRule = () => {
-    updateRules([...currentRules, { id: Math.random().toString(), from: '', to: '' }]);
+    updateRules([...currentRules, { id: Math.random().toString(), from: "", to: "" }]);
   };
 
-  const updateRule = (id: string, field: 'from' | 'to', value: string) => {
-    updateRules(currentRules.map(r => r.id === id ? { ...r, [field]: value } : r));
+  const updateRule = (id: string, field: "from" | "to", value: string) => {
+    updateRules(currentRules.map((r) => (r.id === id ? { ...r, [field]: value } : r)));
   };
 
   const deleteRule = (id: string) => {
-    updateRules(currentRules.filter(r => r.id !== id));
+    updateRules(currentRules.filter((r) => r.id !== id));
   };
 
   const buildRulesMap = () => {
@@ -106,7 +106,7 @@ export function useGameState(levelId: number) {
     currentLevel.testCases.forEach((tc, index) => {
       const sim = simulateTagSystem(tc.input, rulesMap, currentLevel.m);
       newResults[index] = {
-        status: sim.finalStr === tc.target ? 'pass' : 'fail',
+        status: sim.finalStr === tc.target ? "pass" : "fail",
         history: sim.history,
         finalStr: sim.finalStr,
         reason: sim.reason,
@@ -123,8 +123,8 @@ export function useGameState(levelId: number) {
     const rulesMap = buildRulesMap();
     const sim = simulateTagSystem(tc.input, rulesMap, currentLevel.m);
     const hasHistory = sim.history.length > 0;
-    const status = hasHistory ? 'idle' : sim.finalStr === tc.target ? 'pass' : 'fail';
-    setResults(prev => ({
+    const status = hasHistory ? "idle" : sim.finalStr === tc.target ? "pass" : "fail";
+    setResults((prev) => ({
       ...prev,
       [testCaseIndex]: {
         status,
@@ -147,11 +147,11 @@ export function useGameState(levelId: number) {
       // When all steps have been played through, finalize the status
       if (nextIndex >= maxStep) {
         const tc = currentLevel.testCases[activeTestCase];
-        setResults(prev => ({
+        setResults((prev) => ({
           ...prev,
           [activeTestCase]: {
             ...prev[activeTestCase],
-            status: activeResult.finalStr === tc.target ? 'pass' : 'fail',
+            status: activeResult.finalStr === tc.target ? "pass" : "fail",
           },
         }));
       }
@@ -159,7 +159,7 @@ export function useGameState(levelId: number) {
   };
 
   const resetActiveTestCase = () => {
-    setResults(prev => {
+    setResults((prev) => {
       const next = { ...prev };
       delete next[activeTestCase];
       return next;
@@ -169,7 +169,7 @@ export function useGameState(levelId: number) {
 
   const allPassed =
     currentLevel.testCases.length > 0 &&
-    currentLevel.testCases.every((_, i) => results[i]?.status === 'pass');
+    currentLevel.testCases.every((_, i) => results[i]?.status === "pass");
 
   return {
     currentLevel,
