@@ -1,6 +1,6 @@
-import React from 'react';
-import { Play, CheckCircle2, XCircle, ChevronRight, RotateCcw, StepForward } from 'lucide-react';
-import { TestCase, TestCaseResult } from '../types';
+import React from "react";
+import { Play, CheckCircle2, XCircle, ChevronRight, RotateCcw, StepForward } from "lucide-react";
+import { TestCase, TestCaseResult } from "../types";
 
 type Props = {
   testCases: TestCase[];
@@ -32,7 +32,7 @@ export function TestPanel({
   onDragStart,
 }: Props) {
   const activeResult = results[activeTestCase];
-  const isStepMode = stepIndex >= 0 && activeResult?.status === 'idle';
+  const isStepMode = stepIndex >= 0 && activeResult?.status === "idle";
   const history = activeResult?.history ?? [];
   const totalSteps = history.length;
   const isStepDone = isStepMode && stepIndex >= totalSteps;
@@ -40,9 +40,9 @@ export function TestPanel({
   // Derive the current string to display for the active step
   const currentStepStr = (() => {
     if (!activeResult || !isStepMode) return null;
-    if (stepIndex === 0) return history[0]?.str ?? testCases[activeTestCase]?.input ?? '';
-    if (stepIndex < totalSteps) return history[stepIndex]?.str ?? activeResult.finalStr ?? '';
-    return activeResult.finalStr ?? '';
+    if (stepIndex === 0) return history[0]?.str ?? testCases[activeTestCase]?.input ?? "";
+    if (stepIndex < totalSteps) return history[stepIndex]?.str ?? activeResult.finalStr ?? "";
+    return activeResult.finalStr ?? "";
   })();
 
   // Visible history rows in step mode
@@ -84,23 +84,25 @@ export function TestPanel({
                 onClick={() => onSelectTestCase(index)}
                 className={`flex items-center justify-between p-2 lg:p-3 rounded-lg border text-left transition-all w-full shrink-0 ${
                   isActive
-                    ? 'bg-zinc-900 border-zinc-700 shadow-md'
-                    : 'bg-zinc-950 border-zinc-800 hover:border-zinc-700'
+                    ? "bg-zinc-900 border-zinc-700 shadow-md"
+                    : "bg-zinc-950 border-zinc-800 hover:border-zinc-700"
                 }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 flex-1 overflow-hidden">
                   <div className="font-mono text-xs lg:text-sm truncate flex-1">
-                    <span className="text-zinc-500">入力:</span> <span className="text-zinc-200">{tc.input}</span>
+                    <span className="text-zinc-500">入力:</span>{" "}
+                    <span className="text-zinc-200">{tc.input}</span>
                   </div>
                   <ChevronRight className="w-3 h-3 text-zinc-700 shrink-0 hidden sm:block" />
                   <div className="font-mono text-xs lg:text-sm truncate flex-1">
-                    <span className="text-zinc-500">目標:</span> <span className="text-indigo-400">{tc.target}</span>
+                    <span className="text-zinc-500">目標:</span>{" "}
+                    <span className="text-indigo-400">{tc.target}</span>
                   </div>
                 </div>
                 <div className="shrink-0 ml-2 lg:ml-4">
-                  {!res || res.status === 'idle' ? (
+                  {!res || res.status === "idle" ? (
                     <div className="w-4 h-4 lg:w-5 lg:h-5 rounded-full border-2 border-zinc-700" />
-                  ) : res.status === 'pass' ? (
+                  ) : res.status === "pass" ? (
                     <CheckCircle2 className="w-4 h-4 lg:w-5 lg:h-5 text-emerald-500" />
                   ) : (
                     <XCircle className="w-4 h-4 lg:w-5 lg:h-5 text-red-500" />
@@ -115,8 +117,13 @@ export function TestPanel({
       {/* Resizer */}
       <div
         className="h-3 bg-zinc-950 border-b border-zinc-800 cursor-row-resize flex items-center justify-center group shrink-0 touch-none"
-        onMouseDown={(e) => { e.preventDefault(); onDragStart(e.clientY); }}
-        onTouchStart={(e) => { onDragStart(e.touches[0].clientY); }}
+        onMouseDown={(e) => {
+          e.preventDefault();
+          onDragStart(e.clientY);
+        }}
+        onTouchStart={(e) => {
+          onDragStart(e.touches[0].clientY);
+        }}
       >
         <div className="w-12 h-1 bg-zinc-800 rounded-full group-hover:bg-indigo-500 transition-colors" />
       </div>
@@ -173,10 +180,15 @@ export function TestPanel({
               )}
 
               {visibleHistory.map((step, i) => (
-                <div key={i} className={`flex items-start gap-2 lg:gap-3 ${isStepMode && i === stepIndex - 1 ? 'bg-zinc-900/50 rounded px-1 -mx-1' : ''}`}>
+                <div
+                  key={i}
+                  className={`flex items-start gap-2 lg:gap-3 ${isStepMode && i === stepIndex - 1 ? "bg-zinc-900/50 rounded px-1 -mx-1" : ""}`}
+                >
                   <span className="text-zinc-600 w-5 lg:w-6 text-right select-none">{i + 1}.</span>
                   <div className="break-all">
-                    <span className="text-red-500/80 line-through decoration-red-500/50">{step.deleted}</span>
+                    <span className="text-red-500/80 line-through decoration-red-500/50">
+                      {step.deleted}
+                    </span>
                     <span className="text-zinc-300">{step.remaining}</span>
                     <span className="text-emerald-400">{step.appended}</span>
                   </div>
@@ -187,7 +199,7 @@ export function TestPanel({
               {isStepMode && stepIndex > 0 && !isStepDone && currentStepStr !== null && (
                 <div className="flex items-start gap-2 lg:gap-3 border-l-2 border-amber-500/40 pl-2">
                   <span className="text-zinc-600 w-5 lg:w-6 text-right select-none">→</span>
-                  <div className="break-all text-amber-300/80">{currentStepStr || 'ε (空)'}</div>
+                  <div className="break-all text-amber-300/80">{currentStepStr || "ε (空)"}</div>
                 </div>
               )}
 
@@ -196,10 +208,14 @@ export function TestPanel({
                 <div className="flex items-start gap-2 lg:gap-3 mt-2 pt-2 border-t border-zinc-800/50">
                   <span className="text-zinc-600 w-5 lg:w-6 text-right select-none"></span>
                   <div className="break-all flex flex-col gap-1">
-                    <span className={`font-bold ${activeResult.status === 'pass' ? 'text-emerald-400' : 'text-zinc-300'}`}>
-                      {activeResult.finalStr || 'ε (空)'}
+                    <span
+                      className={`font-bold ${activeResult.status === "pass" ? "text-emerald-400" : "text-zinc-300"}`}
+                    >
+                      {activeResult.finalStr || "ε (空)"}
                     </span>
-                    <span className="text-[10px] lg:text-xs text-zinc-500">{activeResult.reason}</span>
+                    <span className="text-[10px] lg:text-xs text-zinc-500">
+                      {activeResult.reason}
+                    </span>
                   </div>
                 </div>
               )}

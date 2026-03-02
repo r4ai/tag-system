@@ -1,6 +1,11 @@
-import { Step } from '../types';
+import { Step } from "../types";
 
-export function simulateTagSystem(input: string, rules: Record<string, string>, m: number, maxSteps = 200) {
+export function simulateTagSystem(
+  input: string,
+  rules: Record<string, string>,
+  m: number,
+  maxSteps = 200,
+) {
   let current = input;
   const history: Step[] = [];
   let halted = false;
@@ -23,21 +28,21 @@ export function simulateTagSystem(input: string, rules: Record<string, string>, 
     const appended = rules[head];
     const deleted = current.slice(0, m);
     const remaining = current.slice(m);
-    
+
     history.push({
       str: current,
       read: head,
       appended,
       deleted,
-      remaining
+      remaining,
     });
 
     current = remaining + appended;
-    
+
     if (current === "") {
-        halted = true;
-        reason = "Halted: String is empty.";
-        break;
+      halted = true;
+      reason = "Halted: String is empty.";
+      break;
     }
   }
 

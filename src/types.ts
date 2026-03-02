@@ -27,7 +27,7 @@ export type Step = {
 };
 
 export type TestCaseResult = {
-  status: 'idle' | 'running' | 'pass' | 'fail';
+  status: "idle" | "running" | "pass" | "fail";
   history?: Step[];
   finalStr?: string;
   reason?: string;

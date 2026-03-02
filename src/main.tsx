@@ -1,11 +1,11 @@
-import {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
-import { RouterProvider } from '@tanstack/react-router';
-import { router } from './router';
-import './index.css';
-import 'katex/dist/katex.min.css';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { RouterProvider } from "@tanstack/react-router";
+import { router } from "./router";
+import "./index.css";
+import "katex/dist/katex.min.css";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>,
